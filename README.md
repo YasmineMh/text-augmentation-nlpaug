@@ -1,4 +1,4 @@
-# Project Description
+# Text Augmentation using nlpaug python library
 
 Description
 
@@ -29,7 +29,7 @@ The nlpaug library provides different augmenters for textual data by targeting c
     - **AbstSummAug** : Augmenter that summarizes article by abstractive summarization method.
     - **LambadaAug** : Augmenter that uses language model to generate text and then uses classification model to retain high quality results.
 
-## Choosing Augmenters
+## Analyzing Augmenters
 
 In our case, we want to apply Data Augmentation on paragraphs extracted from contracts and legal documents. Hence, we want to generate data that is understandable and closer to real data semantically using different words and sentences without lexical and syntaxic errors.
 
@@ -60,14 +60,91 @@ Original : 39.1. The Landlord hereby grants to the Tenant the option to take und
 Augmented : 39. 1. The Landl ord hereby g rants to the Tena nt the option to t ake u nder le ase
 ```
 
+- WordEmbsAug : We tested word embeddings to apply augmentation by inserting and substituting words, but it didn't give good results as the examples below:
+  - word2vec : Example of an augmented phrase using GoogleNews-vectors-negative300.bin.gz model
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : 39. Sergia 1. bimbo The catcher Landlord hereby grants friedman to kl the Tenant the option Predator to take under lease
+```
+  - fasttext : Example of an augmented phrase using wiki-news-300d-1M.vec.zip model
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : 39. linguistically 1. The Landlord Lagalag hereby grants to the Tenant 18.82 the option triumphalistic to pre-1955 take under MikeDust lease
+```
+  - glove : Example of an augmented phrase using glove.6B.zip model
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : ahmes 39. negativity 1. The certeza Landlord hereby grants to pseudo-3d the Tenant the hatsopoulos option to take under toroc lease
+```
+
+
 - ReservedAug : It replaces reserved words. We can use SynonymAug and AntonymAug instead.
 
+
+Regarding the sentence augmenters, we are not going to use LambadaAug and AbstSummAug.
+
+- AbstSummAug : It summarizes articles, and we have short paragraphs.
 
 - LambadaAug : It is a data augmentation method for text classification tasks as mentioned in [Do Not Have Enough Data? Deep Learning to the Rescue!](https://arxiv.org/pdf/1911.03118.pdf) paper. And in our case, it is not a classification task.
 
 ### Used Augmenters
 
+In this section, we are going to present the augmenters that will be used in this project and an augmentation example of each one.
+
+
+- SynonymAug : It substitutes words by WordNet's synonym like the example below.
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : thirty nine. ane. The Landlord hereby grants to the Renter the option to exact under lease
+```
+
+- AntonymAug : It substitutes words by antonym like the example below.
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : 39. 1. The Landlord hereby grants to the Tenant the option to disclaim under lease
+```
+
+- ContextualWordEmbsAug : It inserts words by using contextual word embeddings/ Language models. In the example below we used bert-base-uncased model (default model).
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : article 39. 1. the landlord hereby grants to the principal tenant lessee the option together to take part under a lease
+```
+
+- BackTranslationAug : In the following example, we translate the english sentence into german (using facebook/wmt19-en-de model), then we translate back the german sentence into english (using facebook/wmt19-de-en)
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
+Augmented : 39.1. The landlord hereby grants the tenant the opportunity to take over the lease
+```
+
+- ContextualWordEmbsForSentenceAug : It completes a sentence using language models. We tested xlnet-base-cased and gpt2 models. We are going to use the first one which returns acceptable results, unlike gpt2 which returns random words, as shown below.
+  - Results of xlnet-base-cased model:
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the 
+Augmented : 39.1. The Landlord hereby grants to the Tenant the title as written by or implied to her title hereunder to all the more valid titles on its property below and mentioned to such less valid articles below,
+```
+  - Results of gpt2:
+```bash
+Original : 39.1. The Landlord hereby grants to the Tenant the 
+Augmented : 39.1. The Landlord hereby grants to the Tenant the % - and to is ( of in : - from / .'
+```
+  
+
+### Improvements
+
+### Converting Expansion Date label
+
 
 ## Installation
 
 
+## Issues we run into
+
+## Discussion
+
+In this section, we are discussing some of the problems that such a data augmentation technique can create, and suggesting other techniques.
+
+### Data Augmentation limitations
+
+### Other techniques
+
+ 
