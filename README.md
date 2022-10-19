@@ -8,16 +8,16 @@ This python library helps you with augmenting nlp for your machine learning proj
 The nlpaug library provides different augmenters for textual data by targeting characters, words or sentences.
 
 *   For characters, the library provides 3 augmenters:
-    - KeyboardAug : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
-    - OcrAug : Augmenter that simulates ocr error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace character by possible OCR error.
-    - RandomAug : Augmenter that generates character error by random values. For example, people may type i as o incorrectly.
+    - ** KeyboardAug ** : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
+    - ** OcrAug ** : Augmenter that simulates ocr error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace character by possible OCR error.
+    - ** RandomAug ** : Augmenter that generates character error by random values. For example, people may type i as o incorrectly.
 
 *   For words, the library provides 10 augmenters:
-- AntonymAug : Augmenter that substitutes opposite meaning word according to WordNet antonym
-- ContextualWordEmbsAug : Augmenter that leverages contextual word embeddings to find top n similar word for augmentation. It uses language models (BERT, DistilBERT, RoBERTa or XLNet) to find out the most suitlabe word for augmentation
-- RandomWordAug : Augmenter that applies randomly behavior for augmentation.
-- SpellingAug : Augmenter that leverages pre-defined spelling mistake dictionary to simulate spelling mistake.
-- SplitAug : Augmenter that applies word splitting for augmentation. It splits one word to two words randomly
+- ** AntonymAug ** : Augmenter that substitutes opposite meaning word according to WordNet antonym
+- ** ContextualWordEmbsAug ** : Augmenter that leverages contextual word embeddings to find top n similar word for augmentation. It uses language models (BERT, DistilBERT, RoBERTa or XLNet) to find out the most suitlabe word for augmentation
+- ** RandomWordAug ** : Augmenter that applies randomly behavior for augmentation.
+- ** SpellingAug ** : Augmenter that leverages pre-defined spelling mistake dictionary to simulate spelling mistake.
+- ** SplitAug : Augmenter that applies word splitting for augmentation. It splits one word to two words randomly
 - SynonymAug : Augmenter that substitutes similar word according to WordNet/ PPDB synonym.
 - TfIdfAug : Augmenter that leverages TF-IDF statistics to insert or substitute word.
 - WordEmbsAug : Augmenter that leverages word embeddings to find top n similar word for augmentation. It uses word embeddings (word2vec, GloVe or fasttext) to apply augmentation.
