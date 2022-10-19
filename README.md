@@ -8,9 +8,9 @@ This python library helps you with augmenting nlp for your machine learning proj
 The nlpaug library provides different augmenters for textual data by targeting characters, words or sentences.
 
 *   For characters, the library provides 3 augmenters:
-- KeyboardAug : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
-- OcrAug : Augmenter that simulates ocr error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace character by possible OCR error.
-- RandomAug : Augmenter that generates character error by random values. For example, people may type i as o incorrectly.
+    - KeyboardAug : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
+    - OcrAug : Augmenter that simulates ocr error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace character by possible OCR error.
+    - RandomAug : Augmenter that generates character error by random values. For example, people may type i as o incorrectly.
 
 *   For words, the library provides 10 augmenters:
 - AntonymAug : Augmenter that substitutes opposite meaning word according to WordNet antonym
