@@ -21,7 +21,7 @@ The nlpaug library provides different augmenters for textual data by targeting c
     - **SynonymAug** : Augmenter that substitutes similar word according to WordNet/ PPDB synonym.
     - **TfIdfAug** : Augmenter that leverages TF-IDF statistics to insert or substitute word.
     - **WordEmbsAug** : Augmenter that leverages word embeddings to find top n similar word for augmentation. It uses word embeddings (word2vec, GloVe or fasttext) to apply augmentation.
-    - **BackTranslationAug** : Augmenter that leverages two translation models for augmentation. For example, the source is English. This augmenter translate source to German and translating it back to English.
+    - **BackTranslationAug** : Augmenter that leverages two translation models for augmentation. For example, if the source is English, this augmenter translates source to German and then translates it back to English.
     - **ReservedAug** : Augmenter that applies target word replacement for augmentation. It can also be used to generate all possible combinations.
 
 *   For sentences, the library provides 3 augmenters:
