@@ -132,11 +132,54 @@ Augmented : 39.1. The Landlord hereby grants to the Tenant the % - and to is ( o
 
 ### Converting Expansion Date label
 
+- To transform the label into another type of date, we applied two steps.
 
-## Installation
+  - The first step is changing the format of the date by randomly choosing one pattern from 13 defined patterns. For example, the "December 1, 1999" date is transformed in one of the following formats:
+```bash
+01-December-1999
+12-01-1999
+12/01/1999
+01-Dec-1999
+1999-12-01
+Dec 01 1999
+Dec. 01, 1999
+December. 01, 1999
+01 December 1999
+1st December 1999
+the First of December, 1999
+December 1st, 1999
+December the First, 1999
+```
+
+  - The next step is randomly changing the day and the month of the provided date as the example below.
+```bash
+January the Fifteenth, 1999
+```
+
+## Installation 
+
+- Install the requirements
+```bash
+pip install -r "requirements.txt"
+```
+
+- Run the script
+```bash
+python data_augmentation.py 
+```
 
 
 ## Issues we run into
+
+- To use BackTranslationAug augmenter, we have to install sacremoses, or an error will occur.
+
+
+- After generating 200 exapmles for a paragraph, we found out that there are many duplicates especially after translating. So, we added more examples by randomly combining generating sentences from the first part and the second part of the paragraph.
+
+- To generate the 200 augmented data, it takes approximatly 3 hours. The backtranslation augmenters take a lot of time to generate sentences.
+
+- We cannot test different models from Hugging Face due to the limited number of language models supported by the nlpaug library. For example, the ContextualWordEmbsForSentenceAug only supports XLNet and GPT2 models.
+
 
 ## Discussion
 
@@ -146,13 +189,13 @@ In this section, we are discussing some of the problems that such a data augment
 
 In the natural language processing (NLP) field, it is hard to augment text due to the high complexity of language. On the other hand, generating an augmented image in the computer vision area is relatively easier by flipping, adding salt, etc..
 
-Random token Replacement/Insertion using augmenters like SynonymAug, AntonymAug or ContextualWordEmbsAug may be a locally acceptable augmentation method but possibly disrupt the meaning of the whole sentence or the next and/or previous sentences. 
+- Random token Replacement/Insertion using augmenters like SynonymAug, AntonymAug or ContextualWordEmbsAug may be a locally acceptable augmentation method but possibly disrupt the meaning of the whole sentence or the next and/or previous sentences. 
 Also, such methods may ensure the validity of the augmented data, but also lead to insufficient semantic diversity. 
  
-Working in specialized domains such as those with domain-specific vocabulary and jargon (e.g. Law) can present challenges. Many pretrained models and external knowledge like WordNe cannot be effectively used. And this is can be applied to sub-domains as well. For example, if the data to augment is about lease agreement, the augmented data will have the same topic. Hence, the trained model will probably not be able to generalize to new type of contracts during inference. And that, because of the golden rule in data science which is **garbage in garbage out**.
+- Working in specialized domains such as those with domain-specific vocabulary and jargon (e.g. Law) can present challenges. Many pretrained models and external knowledge like WordNet cannot be effectively used. And this is can be applied to subdomains as well. For example, if the data to augment is about lease agreement, the augmented data will have the same topic. Hence, the trained model will probably not be able to generalize to new type of contracts during inference. And that, because of the golden rule in data science which is **garbage in garbage out**.
 
 
-The distribution of augmented data could be too similar from the original sentence when using token replacement or back-translation or too different from the original sentence when using Text Generation language models like GPT-2. This may lead to greater overfitting or poor performance through training on examples not representative of the given domain.
+- The distribution of augmented data could be too similar from the original sentence when using token replacement or backtranslation, or too different from the original sentence when using Text Generation language models like GPT-2. This may lead to greater overfitting or poor performance through training on examples not representative of the given domain.
 
 
 Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore, it reduces the cost of collection of data and labelling data, and it prevents data scarcity. However, gathering real data is more efficient. Moreover, by generating training data, the model can learn how to reverse-engineer the script.
