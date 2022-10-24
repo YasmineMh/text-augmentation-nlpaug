@@ -225,7 +225,7 @@ January the Fifteenth, 1999
 
 - Install the requirements
 ```bash
-pip install -r "requirements.txt"
+pip install -r requirements.txt
 ```
 
 - Run the script
