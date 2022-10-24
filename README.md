@@ -8,16 +8,30 @@ In this project, we are going to generate data from two text paragraphs each con
 
 We are going to use [nlpaug](https://github.com/makcedward/nlpaug) library.
 
+
+**Sections** :
+
 [Textual nlpaug Augmenters](#Textual-nlpaug-Augmenters)
-[Analyzing Augmenters](#Analyzing-Augmenters)
-[Ununsed Augmenters](#Ununsed-Augmenters)
-[Used Augmenters](#Used-Augmenters)
-[Used Approach](#Used-Approach)
-[Converting Expansion Date label](#Converting-Expansion-Date-label)
+
+- [Analyzing Augmenters](#Analyzing-Augmenters)
+
+- [Ununsed Augmenters](#Ununsed-Augmenters)
+
+- [Used Augmenters](#Used-Augmenters)
+
+- [Used Approach](#Used-Approach)
+
+- [Converting Expansion Date label](#Converting-Expansion-Date-label)
+
 [Installation](#Installation)
+
 [Discussion](#Discussion)
-[Data Augmentation limitations](#Data-Augmentation-limitations)
-[Other techniques](#Other-techniques)
+
+- [Data Augmentation limitations](#Data-Augmentation-limitations)
+
+- [Other techniques](#Other-techniques)
+
+
 
 ## Textual nlpaug Augmenters
 
@@ -218,7 +232,7 @@ python data_augmentation.py
 ```
 
 
-## Installation
+## Discussion
 
 - To use BackTranslationAug augmenter, we have to install sacremoses, or an error will occur.
 
