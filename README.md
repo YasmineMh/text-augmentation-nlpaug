@@ -25,6 +25,8 @@ We are going to use [nlpaug](https://github.com/makcedward/nlpaug) library.
 
 [Installation](#Installation)
 
+[Issues we run into](#Issues-we-run-into)
+
 [Discussion](#Discussion)
 
 - [Data Augmentation limitations](#Data-Augmentation-limitations)
@@ -232,7 +234,7 @@ python data_augmentation.py
 ```
 
 
-## Discussion
+## Issues we run into
 
 - To use BackTranslationAug augmenter, we have to install sacremoses, or an error will occur.
 
