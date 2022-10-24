@@ -144,9 +144,23 @@ In this section, we are discussing some of the problems that such a data augment
 
 ### Data Augmentation limitations
 
+In the natural language processing (NLP) field, it is hard to augment text due to the high complexity of language. On the other hand, generating an augmented image in the computer vision area is relatively easier by flipping, adding salt, etc..
+
+Random token Replacement/Insertion using augmenters like SynonymAug, AntonymAug or ContextualWordEmbsAug may be a locally acceptable augmentation method but possibly disrupt the meaning of the whole sentence or the next and/or previous sentences. 
+Also, such methods may ensure the validity of the augmented data, but also lead to insufficient semantic diversity. 
+ 
+Working in specialized domains such as those with domain-specific vocabulary and jargon (e.g. Law) can present challenges. Many pretrained models and external knowledge like WordNe cannot be effectively used. And this is can be applied to sub-domains as well. For example, if the data to augment is about lease agreement, the augmented data will have the same topic. Hence, the trained model will probably not be able to generalize to new type of contracts during inference. And that, because of the golden rule in data science which is **garbage in garbage out**.
+
+
+The distribution of augmented data could be too similar from the original sentence when using token replacement or back-translation or too different from the original sentence when using Text Generation language models like GPT-2. This may lead to greater overfitting or poor performance through training on examples not representative of the given domain.
+
+
+Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore, it reduces the cost of collection of data and labelling data, and it prevents data scarcity. However, gathering real data is more efficient. Moreover, by generating training data, the model can learn how to reverse-engineer the script.
+
+
 ### Other techniques
 
-- Using Sequence-to-Sequence models such T5-like models to paraphrase sentences. For example, we can use [prithivida/parrot_paraphraser_on_T5](https://huggingface.co/prithivida/parrot_paraphraser_on_T5) model from Hugging Face.
+- Using Sequence-to-Sequence models such as T5-like models to paraphrase sentences. For example, we can use [prithivida/parrot_paraphraser_on_T5](https://huggingface.co/prithivida/parrot_paraphraser_on_T5) model from Hugging Face.
 
 - Fine-tuning auto-regressive models on our own Dataset containing legal documents and contracts to generate data in the same domain as the training data.
 
@@ -154,15 +168,15 @@ In this section, we are discussing some of the problems that such a data augment
 
 - Testing other open source Frameworks/Libraries:
 
-* [SentAugment](https://github.com/facebookresearch/SentAugment) Data augmentation by retrieving similar sentences from larger datasets.
-* [faker](https://github.com/joke2k/faker) - Python package that generates fake data for you.
-* [textflint](https://github.com/textflint/textflint) - Unified Multilingual Robustness Evaluation Toolkit for NLP.
-* [Parrot](https://github.com/PrithivirajDamodaran/Parrot_Paraphraser) - Practical and feature-rich paraphrasing framework.
-* [AugLy](https://github.com/facebookresearch/AugLy) - data augmentations library for audio, image, text, and video.
-* [TextAugment](https://github.com/dsfsi/textaugment) - Python 3 library for augmenting text for natural language processing applications.
+  - [SentAugment](https://github.com/facebookresearch/SentAugment) Data augmentation by retrieving similar sentences from larger datasets.
+  - [faker](https://github.com/joke2k/faker) - Python package that generates fake data for you.
+  - [textflint](https://github.com/textflint/textflint) - Unified Multilingual Robustness Evaluation Toolkit for NLP.
+  - [Parrot](https://github.com/PrithivirajDamodaran/Parrot_Paraphraser) - Practical and feature-rich paraphrasing framework.
+  - [AugLy](https://github.com/facebookresearch/AugLy) - data augmentations library for audio, image, text, and video.
+  - [TextAugment](https://github.com/dsfsi/textaugment) - Python 3 library for augmenting text for natural language processing applications.
 
 
-- Generating adversarial examples unsing [TextAttack](https://github.com/dsfsi/textaugment).
+- Generating adversarial examples using [TextAttack](https://github.com/dsfsi/textaugment).
 
 - After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approch using for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
 
