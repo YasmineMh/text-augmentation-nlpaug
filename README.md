@@ -1,11 +1,27 @@
 # Text Augmentation using nlpaug python library
 
-Description
+In some cases, we can’t find enough examples of specific information in our dataset to have enough examples to train a ML Model. We have to use Data Augmentation.
 
+The goal with Data Augmentation is to increase the size of our dataset by fabricating new examples using the ones we have.
+
+In this project, we are going to generate data from two text paragraphs each containing one example of label called Expansion Date.
+
+We are going to use [nlpaug](https://github.com/makcedward/nlpaug) library.
+
+[Textual nlpaug Augmenters](#Textual-nlpaug-Augmenters)
+[Analyzing Augmenters](#Analyzing-Augmenters)
+[Ununsed Augmenters](#Ununsed-Augmenters)
+[Used Augmenters](#Used-Augmenters)
+[Used Approach](#Used-Approach)
+[Converting Expansion Date label](#Converting-Expansion-Date-label)
+[Installation](#Installation)
+[Discussion](#Discussion)
+[Data Augmentation limitations](#Data-Augmentation-limitations)
+[Other techniques](#Other-techniques)
 
 ## Textual nlpaug Augmenters
 
-The nlpaug library provides different augmenters for textual data by targeting characters, words or sentences.
+The [nlpaug](https://github.com/makcedward/nlpaug) library provides different augmenters for textual data by targeting characters, words or sentences.
 
 *   For characters, the library provides 3 augmenters:
     - **KeyboardAug** : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
@@ -128,13 +144,46 @@ Original : 39.1. The Landlord hereby grants to the Tenant the
 Augmented : 39.1. The Landlord hereby grants to the Tenant the % - and to is ( of in : - from / .'
 ```
   
+### Used Approach
+
+We want to augmente 2 text paragraphs each containing a mentioned label called Expansion Date, and turn them into 200 examples.
+
+For each paragrach, we are going to augmenete the its first part (sentences before the label). Then, we are going to take the label and transform it into another type of date. Next, we are going to take the remaining of the paragraph (its second part : sentences after the label), and apply the data augmentation. Finally, we are going to concatenate the three generated components (first part, date and second part).
+
+To augmente the paragraph's first and second parts, we are going to use a pipeline of augmenters for each part.
+
+- The pipeline of the first paragraph:
+  - Generating 5 examples using synonymAug Augmenter.
+  - Generating 5 examples using antonymAug Augmenter.
+  - Generating 5 examples using contextualWordEmbsAug Augmenter by injecting a new word to random position according to contextual word embeddings calculation.
+  - Generating 5 examples using contextualWordEmbsAug Augmenter by replacing a word according to contextual embeddings calculation.
+  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to replace the first sentences by a generated text (completeing the first words using XLNet model), and paraphrase the last sentence containing the label using synonymAug.
+  - After applying the five previous steps, we have now 25 generated examples.
+  - Backtranslating ( English - German - English) the original sentence and the generated 25 examples using BackTranslationAug Augmenter. We have now 51 generated examples.
+  - Backtranslating ( English - Russian - English) the original sentence and the generated 51 examples using BackTranslationAug Augmenter. We have now 103 generated examples.
+  - Backtranslating ( English - Arabic - English) the original sentence and the generated 103 examples using BackTranslationAug Augmenter. We have now 207 generated examples.
+  - We are going to delete duplicates.
+  
+- The pipeline of the second paragraph:
+  - Generating 5 examples using synonymAug Augmenter.
+  - Generating 5 examples using antonymAug Augmenter.
+  - Generating 5 examples using contextualWordEmbsAug Augmenter by injecting a new word to random position according to contextual word embeddings calculation.
+  - Generating 5 examples using contextualWordEmbsAug Augmenter by replacing a word according to contextual embeddings calculation.
+  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to paraphrase the first sentence containing the label using synonymAug, and replace the next sentences by a generated text (completeing the first words using XLNet model), .
+  - After applying the five previous steps, we have now 25 generated examples.
+  - Backtranslating ( English - German - English) the original sentence and the generated 25 examples using BackTranslationAug Augmenter. We have now 51 generated examples.
+  - Backtranslating ( English - Russian - English) the original sentence and the generated 51 examples using BackTranslationAug Augmenter. We have now 103 generated examples.
+  - Backtranslating ( English - Arabic - English) the original sentence and the generated 103 examples using BackTranslationAug Augmenter. We have now 207 generated examples.
+  - We are going to delete duplicates.
+
+Next, we are going to concatenate the 3 generated parts (first part, date and second part), and if the number of new paragraphs are less than 200 (after deleting duplicates), we are going to create new ones by randomly choosig sentences from the generating data and concatenating them.
 
 
 ### Converting Expansion Date label
 
-- To transform the label into another type of date, we applied two steps.
+To transform the label into another type of date, we applied two steps.
 
-  - The first step is changing the format of the date by randomly choosing one pattern from 13 defined patterns. For example, the "December 1, 1999" date is transformed in one of the following formats:
+- The first step is changing the format of the date by randomly choosing one pattern from 13 defined patterns. For example, the "December 1, 1999" date is transformed in one of the following formats:
 ```bash
 01-December-1999
 12-01-1999
@@ -151,7 +200,7 @@ December 1st, 1999
 December the First, 1999
 ```
 
-  - The next step is randomly changing the day and the month of the provided date as the example below.
+- The next step is randomly changing the day and the month of the provided date as the example below.
 ```bash
 January the Fifteenth, 1999
 ```
@@ -169,7 +218,7 @@ python data_augmentation.py
 ```
 
 
-## Issues we run into
+## Installation
 
 - To use BackTranslationAug augmenter, we have to install sacremoses, or an error will occur.
 
@@ -178,7 +227,7 @@ python data_augmentation.py
 
 - To generate the 200 augmented data, it takes approximatly 3 hours. The backtranslation augmenters take a lot of time to generate sentences.
 
-- We cannot test different models from Hugging Face due to the limited number of language models supported by the nlpaug library. For example, the ContextualWordEmbsForSentenceAug only supports XLNet and GPT2 models.
+- We cannot test different models from Hugging Face due to the limited number of language models supported by the [nlpaug](https://github.com/makcedward/nlpaug) library. For example, the ContextualWordEmbsForSentenceAug only supports XLNet and GPT2 models.
 
 
 ## Discussion
@@ -207,7 +256,7 @@ Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore
 
 - Fine-tuning auto-regressive models on our own Dataset containing legal documents and contracts to generate data in the same domain as the training data.
 
-- Using TF-IDF by training a model from scratch using publicaly available datasets like [albertvillanova/legal_contracts](https://huggingface.co/datasets/albertvillanova/legal_contracts). In this case, we can use TfIdfAug Augmenter from nlpaug library.
+- Using TF-IDF by training a model from scratch using publicaly available datasets like [albertvillanova/legal_contracts](https://huggingface.co/datasets/albertvillanova/legal_contracts). In this case, we can use TfIdfAug Augmenter from [nlpaug](https://github.com/makcedward/nlpaug) library.
 
 - Testing other open source Frameworks/Libraries:
 
@@ -221,6 +270,6 @@ Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore
 
 - Generating adversarial examples using [TextAttack](https://github.com/dsfsi/textaugment).
 
-- After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approch using for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
+- After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approach using for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
 
  
