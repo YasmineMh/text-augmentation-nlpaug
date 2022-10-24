@@ -129,7 +129,6 @@ Augmented : 39.1. The Landlord hereby grants to the Tenant the % - and to is ( o
 ```
   
 
-### Improvements
 
 ### Converting Expansion Date label
 
@@ -146,5 +145,25 @@ In this section, we are discussing some of the problems that such a data augment
 ### Data Augmentation limitations
 
 ### Other techniques
+
+- Using Sequence-to-Sequence models such T5-like models to paraphrase sentences. For example, we can use [prithivida/parrot_paraphraser_on_T5](https://huggingface.co/prithivida/parrot_paraphraser_on_T5) model from Hugging Face.
+
+- Fine-tuning auto-regressive models on our own Dataset containing legal documents and contracts to generate data in the same domain as the training data.
+
+- Using TF-IDF by training a model from scratch using publicaly available datasets like [albertvillanova/legal_contracts](https://huggingface.co/datasets/albertvillanova/legal_contracts). In this case, we can use TfIdfAug Augmenter from nlpaug library.
+
+- Testing other open source Frameworks/Libraries:
+
+* [SentAugment](https://github.com/facebookresearch/SentAugment) Data augmentation by retrieving similar sentences from larger datasets.
+* [faker](https://github.com/joke2k/faker) - Python package that generates fake data for you.
+* [textflint](https://github.com/textflint/textflint) - Unified Multilingual Robustness Evaluation Toolkit for NLP.
+* [Parrot](https://github.com/PrithivirajDamodaran/Parrot_Paraphraser) - Practical and feature-rich paraphrasing framework.
+* [AugLy](https://github.com/facebookresearch/AugLy) - data augmentations library for audio, image, text, and video.
+* [TextAugment](https://github.com/dsfsi/textaugment) - Python 3 library for augmenting text for natural language processing applications.
+
+
+- Generating adversarial examples unsing [TextAttack](https://github.com/dsfsi/textaugment).
+
+- After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approch using for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
 
  
