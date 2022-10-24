@@ -4,7 +4,7 @@ In some cases, we can’t find enough examples of specific information in our da
 
 The goal with Data Augmentation is to increase the size of our dataset by fabricating new examples using the ones we have.
 
-In this project, we are going to generate data from two text paragraphs each containing one example of label called Expansion Date.
+In this project, we are going to generate data from two text paragraphs each containing one example of a label called Expansion Date.
 
 We are going to use [nlpaug](https://github.com/makcedward/nlpaug) library.
 
@@ -40,30 +40,30 @@ We are going to use [nlpaug](https://github.com/makcedward/nlpaug) library.
 The [nlpaug](https://github.com/makcedward/nlpaug) library provides different augmenters for textual data by targeting characters, words or sentences.
 
 *   For characters, the library provides 3 augmenters:
-    - **KeyboardAug** : Augmenter that simulates typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace character by possible keyboard error.
-    - **OcrAug** : Augmenter that simulates ocr error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace character by possible OCR error.
+    - **KeyboardAug** : Augmenter that simulates a typo error by random values. For example, people may type i as o incorrectly. One keyboard distance is leveraged to replace the character by possible keyboard error.
+    - **OcrAug** : Augmenter that simulates an OCR error by random values. For example, OCR may recognize I as 1 incorrectly. Pre-defined OCR mapping is leveraged to replace thecharacter by possible OCR error.
     - **RandomAug** : Augmenter that generates character error by random values. For example, people may type i as o incorrectly.
 
 *   For words, the library provides 10 augmenters:
-    - **AntonymAug** : Augmenter that substitutes opposite meaning word according to WordNet antonym
-    - **ContextualWordEmbsAug** : Augmenter that leverages contextual word embeddings to find top n similar word for augmentation. It uses language models (BERT, DistilBERT, RoBERTa or XLNet) to find out the most suitlabe word for augmentation
-    - **RandomWordAug** : Augmenter that applies randomly behavior for augmentation.
+    - **AntonymAug** : Augmenter that substitutes opposite meaning word according to WordNet antonym.
+    - **ContextualWordEmbsAug** : Augmenter that leverages contextual word embedding to find top n similar words for augmentation. It uses the language models (BERT, DistilBERT, RoBERTa or XLNet) to find out the most suitable word for augmentation.
+    - **RandomWordAug** : Augmenter that applies random behavior for augmentation.
     - **SpellingAug** : Augmenter that leverages pre-defined spelling mistake dictionary to simulate spelling mistake.
-    - **SplitAug** : Augmenter that applies word splitting for augmentation. It splits one word to two words randomly
+    - **SplitAug** : Augmenter that applies word splitting for augmentation. It splits one word to two words randomly.
     - **SynonymAug** : Augmenter that substitutes similar word according to WordNet/ PPDB synonym.
     - **TfIdfAug** : Augmenter that leverages TF-IDF statistics to insert or substitute word.
-    - **WordEmbsAug** : Augmenter that leverages word embeddings to find top n similar word for augmentation. It uses word embeddings (word2vec, GloVe or fasttext) to apply augmentation.
+    - **WordEmbsAug** : Augmenter that leverages word embedding to find top n similar words for augmentation. It uses word embedding (word2vec, GloVe or fasttext) to apply augmentation.
     - **BackTranslationAug** : Augmenter that leverages two translation models for augmentation. For example, if the source is English, this augmenter translates source to German and then translates it back to English.
-    - **ReservedAug** : Augmenter that applies target word replacement for augmentation. It can also be used to generate all possible combinations.
+    - **ReservedAug** : Augmenter that applies to target word replacement for augmentation. It can also be used to generate all possible combinations.
 
 *   For sentences, the library provides 3 augmenters:
-    - **ContextualWordEmbsForSentenceAug** : Augmenter that inserts sentence according to XLNet, GPT2 or DistilGPT2 prediction.
-    - **AbstSummAug** : Augmenter that summarizes article by abstractive summarization method.
-    - **LambadaAug** : Augmenter that uses language model to generate text and then uses classification model to retain high quality results.
+    - **ContextualWordEmbsForSentenceAug** : Augmenter that inserts a sentence according to XLNet, GPT2 or DistilGPT2 prediction.
+    - **AbstSummAug** : Augmenter that summarizes an article by abstractive summarization method.
+    - **LambadaAug** : Augmenter that uses a language model to generate text and then uses classification model to retain high quality results.
 
 ## Analyzing Augmenters
 
-In our case, we want to apply Data Augmentation on paragraphs extracted from contracts and legal documents. Hence, we want to generate data that is understandable and closer to real data semantically using different words and sentences without lexical and syntaxic errors.
+In our case, we want to apply Data Augmentation on paragraphs extracted from contracts and legal documents. Hence, we want to generate data that is understandable and closer to real data semantically using different words and sentences without lexical and syntactic errors.
 
 
 ### Ununsed Augmenters
@@ -72,21 +72,21 @@ We are not going to focus on character augmenters because typo errors are genera
 
 Also, we are not going to use some of the word augmenters that add noise to training data instead of meaning including:
 
-- SpellingAug : which substitutes word by spelling mistake words dictionary. In the example below, it replaces '1' by 'l', 'The' by 'Tge' and 'tht' and 'tem', 'to' by 'toa' and 'two'.. 
+- SpellingAug : It substitutes words by spelling mistake words dictionary. In the example below, it replaces '1' by 'l', 'The' by 'Tge' and 'tht' and 'tem', 'to' by 'toa' and 'two'.. 
 ```bash
 Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
 Augmented : 39. l. Tge Landlord hereby grants toa tht Tenant tem option two taking ander lease
 ```
 
-- RandomWordAug : which swap word randomly. In the example below, it replaces '.', 'to' and 'the' words randomly.
+- RandomWordAug : It swaps word randomly. In the example below, it replaces '.', 'to' and 'the' words randomly.
 ```bash
 Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
 Augmented : . 39 1 The. Landlord hereby to grants the the Tenant option to take under lease
 ```
 
-- TfIdfAug : TfIdfAug has to be trained based on our data. But, we don't have a dataset beacuse we have only two paragraphs to be augmented in our training data.
+- TfIdfAug : It has to be trained based on our data. But, we don't have a dataset because we have only two paragraphs to be augmented in our training data.
 
-- SplitAug : which splits one token to two tokens randomly. In the example below, it splits many words like 'Tenant' becomes 'Tena nt'.
+- SplitAug : It splits one token to two tokens randomly. In the example below, it splits many words like 'Tenant' becomes 'Tena nt'.
 ```bash
 Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
 Augmented : 39. 1. The Landl ord hereby g rants to the Tena nt the option to t ake u nder le ase
@@ -142,7 +142,7 @@ Original : 39.1. The Landlord hereby grants to the Tenant the option to take und
 Augmented : article 39. 1. the landlord hereby grants to the principal tenant lessee the option together to take part under a lease
 ```
 
-- BackTranslationAug : In the following example, we translate the english sentence into german (using facebook/wmt19-en-de model), then we translate back the german sentence into english (using facebook/wmt19-de-en)
+- BackTranslationAug : In the following example, we translate the English sentence into German (using facebook/wmt19-en-de model), then we translate back the German sentence into English (using facebook/wmt19-de-en)
 ```bash
 Original : 39.1. The Landlord hereby grants to the Tenant the option to take under lease
 Augmented : 39.1. The landlord hereby grants the tenant the opportunity to take over the lease
@@ -162,18 +162,18 @@ Augmented : 39.1. The Landlord hereby grants to the Tenant the % - and to is ( o
   
 ### Used Approach
 
-We want to augmente 2 text paragraphs each containing a mentioned label called Expansion Date, and turn them into 200 examples.
+We want to augment 2 text paragraphs each containing a mentioned label called Expansion Date, and turn them into 200 examples.
 
-For each paragrach, we are going to augmenete the its first part (sentences before the label). Then, we are going to take the label and transform it into another type of date. Next, we are going to take the remaining of the paragraph (its second part : sentences after the label), and apply the data augmentation. Finally, we are going to concatenate the three generated components (first part, date and second part).
+For each paragraph, we are going to augment the its first part (sentences before the label). Then, we are going to take the label and transform it into another type of date. Next, we are going to take the remaining of the paragraph (its second part : sentences after the label), and apply the data augmentation. Finally, we are going to concatenate the three generated components (first part, date and second part).
 
-To augmente the paragraph's first and second parts, we are going to use a pipeline of augmenters for each part.
+To augment the paragraph's first and second parts, we are going to use a pipeline of augmenters for each part.
 
 - The pipeline of the first paragraph:
   - Generating 5 examples using synonymAug Augmenter.
   - Generating 5 examples using antonymAug Augmenter.
   - Generating 5 examples using contextualWordEmbsAug Augmenter by injecting a new word to random position according to contextual word embeddings calculation.
   - Generating 5 examples using contextualWordEmbsAug Augmenter by replacing a word according to contextual embeddings calculation.
-  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to replace the first sentences by a generated text (completeing the first words using XLNet model), and paraphrase the last sentence containing the label using synonymAug.
+  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to replace the first sentences by a generated text (completing the first words using XLNet model), and paraphrase the last sentence containing the label using synonymAug.
   - After applying the five previous steps, we have now 25 generated examples.
   - Backtranslating ( English - German - English) the original sentence and the generated 25 examples using BackTranslationAug Augmenter. We have now 51 generated examples.
   - Backtranslating ( English - Russian - English) the original sentence and the generated 51 examples using BackTranslationAug Augmenter. We have now 103 generated examples.
@@ -185,21 +185,21 @@ To augmente the paragraph's first and second parts, we are going to use a pipeli
   - Generating 5 examples using antonymAug Augmenter.
   - Generating 5 examples using contextualWordEmbsAug Augmenter by injecting a new word to random position according to contextual word embeddings calculation.
   - Generating 5 examples using contextualWordEmbsAug Augmenter by replacing a word according to contextual embeddings calculation.
-  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to paraphrase the first sentence containing the label using synonymAug, and replace the next sentences by a generated text (completeing the first words using XLNet model), .
+  - Generating 5 examples using ContextualWordEmbsForSentenceAug and synonymAug Augmenters. Since we have a label in our paragraph, we are going to paraphrase the first sentence containing the label using synonymAug, and replace the next sentences by a generated text (completing the first words using XLNet model).
   - After applying the five previous steps, we have now 25 generated examples.
   - Backtranslating ( English - German - English) the original sentence and the generated 25 examples using BackTranslationAug Augmenter. We have now 51 generated examples.
   - Backtranslating ( English - Russian - English) the original sentence and the generated 51 examples using BackTranslationAug Augmenter. We have now 103 generated examples.
   - Backtranslating ( English - Arabic - English) the original sentence and the generated 103 examples using BackTranslationAug Augmenter. We have now 207 generated examples.
   - We are going to delete duplicates.
 
-Next, we are going to concatenate the 3 generated parts (first part, date and second part), and if the number of new paragraphs are less than 200 (after deleting duplicates), we are going to create new ones by randomly choosig sentences from the generating data and concatenating them.
+Next, we are going to concatenate the 3 generated parts (first part, date and second part), and if the number of new paragraphs is less than 200 (after deleting duplicates), we are going to create new ones by randomly choosing sentences from the generating data and concatenating them.
 
 
 ### Converting Expansion Date label
 
 To transform the label into another type of date, we applied two steps.
 
-- The first step is changing the format of the date by randomly choosing one pattern from 13 defined patterns. For example, the "December 1, 1999" date is transformed in one of the following formats:
+- The first step is changing the format of the date by randomly choosing one pattern from 13 defined patterns. For example, the "December 1, 1999" date is transformed into one of the following formats:
 ```bash
 01-December-1999
 12-01-1999
@@ -239,9 +239,9 @@ python data_augmentation.py
 - To use BackTranslationAug augmenter, we have to install sacremoses, or an error will occur.
 
 
-- After generating 200 exapmles for a paragraph, we found out that there are many duplicates especially after translating. So, we added more examples by randomly combining generating sentences from the first part and the second part of the paragraph.
+- After generating 200 examples for a paragraph, we found out that there are many duplicates especially after translating. So, we added more examples by randomly combining generating sentences from the first part and the second part of the paragraph.
 
-- To generate the 200 augmented data, it takes approximatly 3 hours. The backtranslation augmenters take a lot of time to generate sentences.
+- To generate the 200 augmented data, it takes about 3 hours. The back translation augmenters take a lot of time to generate sentences.
 
 - We cannot test different models from Hugging Face due to the limited number of language models supported by the [nlpaug](https://github.com/makcedward/nlpaug) library. For example, the ContextualWordEmbsForSentenceAug only supports XLNet and GPT2 models.
 
@@ -254,13 +254,13 @@ In this section, we are discussing some of the problems that such a data augment
 
 In the natural language processing (NLP) field, it is hard to augment text due to the high complexity of language. On the other hand, generating an augmented image in the computer vision area is relatively easier by flipping, adding salt, etc..
 
-- Random token Replacement/Insertion using augmenters like SynonymAug, AntonymAug or ContextualWordEmbsAug may be a locally acceptable augmentation method but possibly disrupt the meaning of the whole sentence or the next and/or previous sentences. 
+- Random token Replacement/Insertion using augmenters like SynonymAug, AntonymAug or ContextualWordEmbsAug may be a locally acceptable augmentation method, but possibly disrupt the meaning of the whole sentence or the next and/or previous sentences. 
 Also, such methods may ensure the validity of the augmented data, but also lead to insufficient semantic diversity. 
  
-- Working in specialized domains such as those with domain-specific vocabulary and jargon (e.g. Law) can present challenges. Many pretrained models and external knowledge like WordNet cannot be effectively used. And this is can be applied to subdomains as well. For example, if the data to augment is about lease agreement, the augmented data will have the same topic. Hence, the trained model will probably not be able to generalize to new type of contracts during inference. And that, because of the golden rule in data science which is **garbage in garbage out**.
+- Working in specialized domains such as those with domain-specific vocabulary and jargon (e.g. Law) can present challenges. Many pretrained models and external knowledge like WordNet cannot be effectively used. And this is can be applied to subdomains as well. For example, if the data to augment is about the lease agreement, the augmented data will have the same topic. Hence, the trained model will probably not be able to generalize to new type of contracts during inference. And that, because of the golden rule in data science which is **garbage in garbage out**.
 
 
-- The distribution of augmented data could be too similar from the original sentence when using token replacement or backtranslation, or too different from the original sentence when using Text Generation language models like GPT-2. This may lead to greater overfitting or poor performance through training on examples not representative of the given domain.
+- The distribution of augmented data could be too similar from the original sentence when using token replacement or back translation, or too different from the original sentence when using Text Generation language models like GPT-2. This may lead to greater overfitting or poor performance through training on examples not representative of the given domain.
 
 
 Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore, it reduces the cost of collection of data and labelling data, and it prevents data scarcity. However, gathering real data is more efficient. Moreover, by generating training data, the model can learn how to reverse-engineer the script.
@@ -272,7 +272,7 @@ Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore
 
 - Fine-tuning auto-regressive models on our own Dataset containing legal documents and contracts to generate data in the same domain as the training data.
 
-- Using TF-IDF by training a model from scratch using publicaly available datasets like [albertvillanova/legal_contracts](https://huggingface.co/datasets/albertvillanova/legal_contracts). In this case, we can use TfIdfAug Augmenter from [nlpaug](https://github.com/makcedward/nlpaug) library.
+- Using TF-IDF by training a model from scratch using publically available datasets like [albertvillanova/legal_contracts](https://huggingface.co/datasets/albertvillanova/legal_contracts). In this case, we can use TfIdfAug Augmenter from [nlpaug](https://github.com/makcedward/nlpaug) library.
 
 - Testing other open source Frameworks/Libraries:
 
@@ -286,6 +286,6 @@ Finally, we cannot deny the importance of Data Augmentation for NLP. Furthermore
 
 - Generating adversarial examples using [TextAttack](https://github.com/dsfsi/textaugment).
 
-- After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approach using for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
+- After generating new examples, we can check the similarity between the original sentence and the generating ones by adding an additional layer in our approach using, for example [SentenceTransformers](https://www.sbert.net/) to choose the sentences with the highest similar meaning.
 
  
